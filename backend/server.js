@@ -16,7 +16,7 @@ app.use(cors({ origin: 'http://localhost:3000' }));
 
 //Connect to mongodb
 
-mongoose.connect('mongodb://localhost:27017/FacultyDB',{
+mongoose.connect('mongodb+srv://gmukul545:Mukulgupta%4013102001@facultydb.aahskmv.mongodb.net/?retryWrites=true&w=majority&appName=FacultyDB',{
    // useNewUrlParser: true,
    // useUnifiedTopology: true,
 })
