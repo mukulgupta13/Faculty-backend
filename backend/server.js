@@ -12,7 +12,7 @@ const app = express();
 //Middleware for parsing json and url-encoded bodies
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({extended: true, limit: '50mb'}));
-app.use(cors({ origin: 'http://localhost:3000,https://faculty.thegorun.com' }));
+app.use(cors({ origin: 'https://faculty.thegorun.com' }));
 
 //Connect to mongodb
 
