@@ -1,5 +1,7 @@
 const { useParams } = require("react-router-dom");
 const Publication = require("../models/Publications");
+const multer = require('multer');
+
 const { uploadAndGetFileId } = require('./../upload');
 
 const uploadPDF = multer().single("publishPdf");
