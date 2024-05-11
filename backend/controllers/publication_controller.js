@@ -1,6 +1,8 @@
 const { useParams } = require("react-router-dom");
 const Publication = require("../models/Publications");
+const { uploadAndGetFileId } = require('./../upload');
 
+const uploadPDF = multer().single("publishPdf");
 
 const getPublication = async (req, res) => {
     try {
@@ -21,12 +23,25 @@ const getPublication = async (req, res) => {
     }
 };
 const savePublication = async (req, res) => {
+  uploadPDF(req, res, async (err, b, c)=>{
+    if(err)
+    {
+      return next(err);
+    }
     console.log(req.body);
-    const publication = await Publication.create(req.body);
+    const data = req.body;
+    if (req.file) {
+      console.log(req.file);
+      data.publishPdf = await uploadAndGetFileId(req.file);
+      console.log(data.publishPdf);
+      //data.image = req.file.path;
+    }
+    const publication = await Publication.create(data);
     return res.status(200).json({
         message: "Success",
         data: publication,
     });
+  });
 };
 const deletePublication = async (req, res, next) => {
     try {
