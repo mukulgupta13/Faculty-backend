@@ -6,16 +6,19 @@ const cors = require('cors');
 const { saveUser, getUsers, getUser, updateUser, deleteUser, getFile } = require('./controllers/user_controller');
 const { savePublication, getPublication, deletePublication } = require('./controllers/publication_controller');
 const { saveUserSignup, signin } = require('./controllers/userSignup_controller');
+const { uploadBasic, getGoogleDriveFiles, downloadFile } = require('./upload');
 
 const app = express();
 
 //Middleware for parsing json and url-encoded bodies
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({extended: true, limit: '50mb'}));
-app.use(cors({ origin: 'https://faculty.thegorun.com' }));
+//app.use(cors({ origin: 'https://faculty.thegorun.com' }));
+app.use(cors({ origin: '*' }));
 
 //Connect to mongodb
 
+//mongoose.connect('mongodb://localhost:27017/FacultyDB',{
 mongoose.connect('mongodb+srv://gmukul545:Mukulgupta%4013102001@facultydb.aahskmv.mongodb.net/?retryWrites=true&w=majority&appName=FacultyDB',{
    // useNewUrlParser: true,
    // useUnifiedTopology: true,
@@ -34,6 +37,9 @@ app.get('/getUser',getUsers);
 app.get('/getUser/:userId',getUser);
 app.get('/getPublication/:userId',getPublication);
 app.get('/getfile/:file', getFile);
+app.post('/upload/:uploadType',uploadBasic);
+app.get('/googledrives',getGoogleDriveFiles);
+app.get('/downloadFile/:fileId',downloadFile);
 // const upload = multer({
 //     storage: multer.diskStorage({
 //         destination: function(req,file,cb)
