@@ -2,6 +2,7 @@ const User = require("../models/User");
 const multer = require('multer');
 const exts = ['jpeg','png','pdf'];
 const extName = ['.jpg','.png','.pdf'];
+const { uploadAndGetFileId } = require('./../upload');
 const getUsers = async (req, res, next) => {
   const users = await User.find();
   return res.status(200).json({
@@ -50,8 +51,10 @@ const upload = multer({
       }
   })
 }).single("image");
+const upload2 = multer().single("image");
+
 const saveUser = async (req, res, next) => {
-  upload(req, res, async (err, b, c)=>{
+  upload2(req, res, async (err, b, c)=>{
     if(err)
     {
       return next(err);
@@ -60,8 +63,10 @@ const saveUser = async (req, res, next) => {
     //const {image} = req.params;
     const data = req.body;
     if (req.file) {
-      
-      data.image = req.file.path;
+      console.log(req.file);
+      data.image = await uploadAndGetFileId(req.file);
+      console.log(data.image);
+      //data.image = req.file.path;
     }
     const user = await User.create(data);
     return res.status(200).json({
